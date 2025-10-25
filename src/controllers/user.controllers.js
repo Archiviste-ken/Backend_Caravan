@@ -3,6 +3,7 @@ import { asyncHandler } from "../utils/asyncHandler.js"
 
 const registerUser = asyncHandler( async (req, res) => {
     // logic to register user
+    
     // get user data from frontend
     // validation - not empty
     // check if user already exists
@@ -13,12 +14,12 @@ const registerUser = asyncHandler( async (req, res) => {
     // check for user creation
     // return response to frontend
 
-    //  const {fullname,email,username,password}= req.body
-    //  console.log("email: ",email);
+     const {fullname,email,username,password}= req.body
+     console.log("email: ", email);
      
-    res.status(500).json({
-        message: "chandu is gay"
-    })
+    // res.status(500).json({
+    //     message: "chandu is gay"
+    // })
 })
 
 export { registerUser };
