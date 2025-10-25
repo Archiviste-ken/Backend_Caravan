@@ -27,10 +27,10 @@ if (
     throw new ApiError(400,"All fields are required")   
 }
     // res.status(500).json({
-    //     message: "chandu is gay"
+    //     message: "chandu"
     // })
 
-    const existedUser.findOne({
+    const existedUser = await User.findOne({
         $or:[{ username }, { email }]
 })
 
@@ -38,10 +38,22 @@ if (existedUser) {
     throw new ApiError(409,"User with email or username already exists")
 }
 
-const avatarLocalPath = req.files?.avatar[0]?.path;
-const coverImageLocalPath = req.files?coverImage[0]?.path;
+// console.log(req.files);
+
+
+const avatarLocalPath = req.files?.avatar?.[0]?.path;
+const coverImageLocalPath = req.files?.coverImage?.[0]?.path;
+
+
+let coverImageLocalPath;
+if (req.files && Array.isArray(req.files.coverImage) && req) {coverImageLocalPath = req.files.coverImage[0].path;
+    
+}
 
 if(!avatarLocalPath){
+    console.log("avatarLocalPath:", avatarLocalPath);
+console.log("uploadOnCloudinary:", uploadOnCloudinary);
+
     throw new ApiError((400,"Avatar file is required"))
 } 
    const avatar = await uploadOnCloudinary(avatarLocalPath)
@@ -59,7 +71,7 @@ if(!avatarLocalPath){
     password
    })
 
-  await createdUser = User.findById(user._id).select(
+  const createdUser = await  User.findById(user._id).select(
     "-password -refreshToken"
   )
   if (!createdUser) {
